@@ -1,0 +1,50 @@
+@if (errorMessage()) {
+    <p class="error-message">
+        {{errorMessage()}}
+    </p>
+} @else if (loading()) {
+    <p class="loading-message">
+        Cargando datos...
+    </p>
+} @else if (rows().length === 0) {
+    <p class="empty-message">
+        {{emptyMessage()}}
+    </p>
+} @else {
+    <table>
+        <thead>
+            <tr>
+                @for (column of columns(); track column.key) {
+                    <th>{{column.label}}</th>
+                }
+                <th> Acciones </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (row of rows(); track $index) {
+                <tr>
+                    @for (column of columns(); track column.key) {
+                        <td>{{row[column.key]}}</td>
+                    }
+                    <td>
+                        <button
+                            type="button"
+                            [attr.aria-label]="'Ver registro' + ($index + 1)"
+                            (click)="actionTriggered.emit({ action: 'view', row: row })"
+                            >
+                             Ver
+                        </button>
+
+                        <button
+                            type="button"
+                            [attr.aria-label]="'Eliminar registro' + ($index + 1)"
+                            (click)="actionTriggered.emit({ action: 'delete', row: row })"
+                            >
+                             Eliminar
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>    
+    </table>
+}

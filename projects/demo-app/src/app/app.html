@@ -265,6 +265,11 @@
         [options]="options"
         [(value)]="selectedValue"
       ></ui-select>
+      <ui-table
+        [rows]="characters"
+        [columns]="columns"
+        (actionTriggered)="handleAction($event)"
+      />
       <p>Congratulations! Your app is running. 🎉</p>
     </div>
     <div class="divider" role="separator" aria-label="Divider"></div>
