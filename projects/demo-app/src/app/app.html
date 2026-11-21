@@ -264,10 +264,19 @@
         placeholder="Elige una opción"
         [options]="options"
         [(value)]="selectedValue"
+        (valueChange)="onResourceChanges()"
       ></ui-select>
+      <ui-select
+        [options]="statusOptions"
+        label="Filtrar por estado"
+        placeholder="Selecciona un estado"
+        [(value)]="selectedStatus"
+      />  
       <ui-table
-        [rows]="characters"
+        [rows]="filteredCharacters()"
         [columns]="columns"
+        [loading]="loadingCharacters()"
+        [errorMessage]="errorCharacters()"
         (actionTriggered)="handleAction($event)"
       />
       <p>Congratulations! Your app is running. 🎉</p>

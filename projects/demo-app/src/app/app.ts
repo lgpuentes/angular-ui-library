@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject, OnInit, computed } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { UiButton, SelectOption, UiSelect, UiCard, UiTable, TableColumn } from 'ui-lib';
+import { RickAndMortyService } from './services/rick-and-morty';
 
 interface Character {
   name: string;
@@ -15,9 +16,17 @@ interface Character {
   templateUrl: './app.html',
 })
 
-export class App {
+export class App implements OnInit {
+  private rickAndMortyService = inject(RickAndMortyService);
   protected readonly title = signal('demo-app');
   loading = signal(false);
+  loadingCharacters = signal(false);
+  errorCharacters = signal<string | null>(null);
+
+  ngOnInit() {
+    this.cargarPersonajes();
+  }
+
   guardar(){
     this.loading.set(true);
 
@@ -28,6 +37,9 @@ export class App {
   }
 
   selectedValue = signal<string | null>(null);
+  onResourceChanges(){
+    this.selectedStatus.set('all');
+  }
 
   options: SelectOption[] = [
     { label: 'Personajes', value: 'characters' },
@@ -35,13 +47,7 @@ export class App {
     { label: 'Ubicaciones', value: 'locations' },
   ];
 
-  characters: Character[] = [
-    { name: 'Rick Sanchez', status: 'Alive', species: 'Human' },
-    { name: 'Morty Smith', status: 'Alive', species: 'Human' },
-    { name: 'Summer Smith', status: 'Alive', species: 'Human' },
-    { name: 'Beth Smith', status: 'Alive', species: 'Human' },
-    { name: 'Jerry Smith', status: 'Alive', species: 'Human' },
-  ];
+  characters = signal<Character[]>([]);
 
   columns: TableColumn<Character>[] = [
     { key: 'name', label: 'Name' },
@@ -55,4 +61,41 @@ export class App {
    }) {
     console.log(event.action, event.row);
   }
+
+  cargarPersonajes() {
+    this.loadingCharacters.set(true);
+    this.rickAndMortyService.getCharacters().subscribe({
+      next: (response) => {
+        this.characters.set(response.results);
+        this.loadingCharacters.set(false);
+        console.log(response.results);
+      },
+      error: (error) => {
+        console.error('Error al cargar personajes:', error);
+        this.loadingCharacters.set(false);
+        this.errorCharacters.set('Error al cargar personajes');
+      }
+    });
+  }
+  statusOptions: SelectOption[] = [
+    {label: 'Todos', value: 'all'},
+    {label: 'Vivo', value: 'Alive'},
+    {label: 'Muerto', value: 'Dead'},
+    {label: 'Desconocido', value: 'unknown'},
+  ];
+
+  selectedStatus = signal<string>('all');
+
+  filteredCharacters = computed(()=> {
+    const status = this.selectedStatus();
+
+    if (status === 'all'){
+      return this.characters();
+    }
+
+    return this.characters().filter(
+      character => character.status === status
+    );
+  });
+  
 }
