@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ApiResponse } from '../models/api-response';
 import { Character } from '../models/character';
 
+type Resource = 'character' | 'episode' |'location';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,6 +15,10 @@ export class RickAndMortyService {
     getCharacters(): Observable<ApiResponse<Character>> {
         return this.http.get<ApiResponse<Character>>(
             `${this.apiUrl}/character`);
+    }
+
+    getResource<T>(resource: Resource): Observable<ApiResponse<T>> {
+        return this.http.get<ApiResponse<T>>(`${this.apiUrl}/${resource}`)
     }
 
 }

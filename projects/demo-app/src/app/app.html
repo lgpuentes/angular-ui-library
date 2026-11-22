@@ -266,19 +266,47 @@
         [(value)]="selectedValue"
         (valueChange)="onResourceChanges()"
       ></ui-select>
-      <ui-select
-        [options]="statusOptions"
-        label="Filtrar por estado"
-        placeholder="Selecciona un estado"
-        [(value)]="selectedStatus"
-      />  
+      @if (selectedValue()=== 'characters'){
+        <ui-select
+          [options]="statusOptions"
+          label="Filtrar por estado"
+          placeholder="Selecciona un estado"
+          [(value)]="selectedStatus"
+        />
+      }    
       <ui-table
-        [rows]="filteredCharacters()"
-        [columns]="columns"
-        [loading]="loadingCharacters()"
-        [errorMessage]="errorCharacters()"
+        [rows]="tableItems()"
+        [columns]="columns()"
+        [loading]="loadingResource()"
+        [errorMessage]="errorResource()"
         (actionTriggered)="handleAction($event)"
       />
+      @if (showModal() && selectedItem()) {
+        <div class="modal-overlay">
+          <ui-card
+            title="Detalles del registro"
+            subtitle="Información del elemento seleccionado"
+            elevation="raised"
+          >
+            <p><strong>ID:</strong> {{ selectedItem()!.id }}</p>
+            <p><strong>Nombre:</strong> {{ selectedItem()!.name }}</p>
+            <p>
+              <strong>{{ columns()[2].label }}:</strong>
+              {{ selectedItem()!.detail1 }}
+            </p>
+            <p>
+              <strong>{{ columns()[3].label }}:</strong>
+              {{ selectedItem()!.detail2 }}
+            </p>
+            <ui-button
+              label="Cerrar"
+              variant="secondary"
+              size="md"
+              (clicked)="cerrarModal()"
+            />
+          </ui-card>
+        </div>
+      }
       <p>Congratulations! Your app is running. 🎉</p>
     </div>
     <div class="divider" role="separator" aria-label="Divider"></div>
