@@ -10,7 +10,12 @@ import {NgClass} from '@angular/common';
     [attr.aria-busy]="loading()"
     [attr.aria-disabled]="disabled() || loading()"
     [disabled]="disabled() || loading()"
-    [ngClass]="[variant(), size()]"
+    [ngClass]="[
+        variantClasses[variant()],
+        sizeClasses[size()],
+        'rounded-md border-0 cursor-pointer transition-opacity duration-200',
+        (disabled() || loading()) ? 'opacity-50 cursor-not-allowed' : ''
+    ]"
     (click)="clicked.emit()"
      >
      @if (loading()) {
@@ -22,40 +27,6 @@ import {NgClass} from '@angular/common';
      </button>`,
 
   styles: `
-    .primary {
-        background-color: #2563eb;
-        color: white;
-    }
-    .secondary {
-        background-color: #e5e7eb;
-        color: #111827;
-    }
-    .danger {
-    background-color: #dc2626;
-    color: white;
-    }
-    .sm {
-        padding: 4px 8px;
-        font-size: 12px;
-    }
-    .md {
-        padding: 8px 16px;
-        font-size: 14px;
-    }
-    .lg {
-        padding: 12px 24px;
-        font-size: 16px;
-    }
-    button:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
-    }
-    button {
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: opacity 0.2s ease;
-    }   
     .spinner {
     display: inline-block;
     width: 14px;
@@ -81,4 +52,16 @@ export class UiButton {
     disabled = input(false);
     loading = input(false);
     clicked = output<void>();
+
+    variantClasses: Record<'primary' | 'secondary' | 'danger', string> = {
+        primary: 'bg-blue-600 text-white',
+        secondary: 'bg-gray-200 text-gray-900',
+        danger: 'bg-red-600 text-white'
+    };
+
+    sizeClasses: Record<'sm' | 'md' | 'lg', string> = {
+        sm: 'px-2 py-1 text-xs',
+        md: 'px-4 py-2 text-sm',
+        lg: 'px-6 py-3 text-base'
+    };
 }    

@@ -6,7 +6,9 @@ import { TableColumn } from '../models/table-column';
   selector: 'ui-table',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrl: './ui-table.css',
+  host: {
+    class: 'block w-full'
+  },
   templateUrl: './ui-table.html',
 })
 export class UiTable<T> {

@@ -5,6 +5,7 @@
   <p>Cargando opciones...</p>
 } @else {
     <select
+        class="w-full px-3 py-[10px] border border-gray-300 rounded-md bg-white text-sm text-gray-900 cursor-pointer focus:outline focus:outline-2 focus:outline-blue-600 focus:outline-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
         [disabled]="disabled()"
         [value]="value() ?? ''"
         (change)="onSelectionChange($event)"

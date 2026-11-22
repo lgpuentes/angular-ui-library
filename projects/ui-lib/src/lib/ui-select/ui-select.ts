@@ -6,7 +6,6 @@ import {SelectOption} from '../models/select-option';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'ui-select',
-  styleUrl: './ui-select.css',
   templateUrl: './ui-select.html',
 })
 export class UiSelect {
