@@ -18,7 +18,8 @@ export class RickAndMortyService {
     }
 
     getResource<T>(resource: Resource): Observable<ApiResponse<T>> {
-        return this.http.get<ApiResponse<T>>(`${this.apiUrl}/${resource}`)
+        return this.http.get<ApiResponse<T>>(
+            `${this.apiUrl}/${resource}`)
     }
 
 }

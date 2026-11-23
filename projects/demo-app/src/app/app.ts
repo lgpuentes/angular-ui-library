@@ -29,7 +29,6 @@ type ResourceColumn =
 export class App implements OnInit {
   private rickAndMortyService = inject(RickAndMortyService);
   protected readonly title = signal('demo-app');
-  loading = signal(false);
   loadingResource = signal(false);
   errorResource = signal<string | null>(null);
   selectedItem = signal<ResourceTableItem | null>(null);
@@ -37,15 +36,6 @@ export class App implements OnInit {
 
   ngOnInit() {
     this.cargarPersonajes();
-  }
-
-  guardar(){
-    this.loading.set(true);
-
-    setTimeout(() => {
-      this.loading.set(false);
-    }, 2000);
-    console.log('Se hizo click en el boton Guardar');
   }
 
   selectedValue = signal<string | null>('characters');
@@ -100,7 +90,6 @@ export class App implements OnInit {
     action: 'view' | 'delete'; 
     row: ResourceTableItem;
    }) {
-    console.log('Evento recibido',event);
     if (event.action === 'view') {
         this.selectedItem.set(event.row);
         this.showModal.set(true);
@@ -117,7 +106,6 @@ export class App implements OnInit {
       next: (response) => {
         this.characters.set(response.results);
         this.loadingResource.set(false);
-        console.log(response.results);
       },
       error: (error) => {
         console.error('Error al cargar personajes:', error);
@@ -198,7 +186,6 @@ export class App implements OnInit {
       next: (response) => {
         this.episodes.set(response.results);
         this.loadingResource.set(false);
-        console.log(response.results);
       },
       error: (error) => {
         console.error('Error al cargar episodios:', error);
@@ -216,7 +203,6 @@ export class App implements OnInit {
       next: (response) => {
         this.locations.set(response.results);
         this.loadingResource.set(false);
-        console.log(response.results);
       },
       error: (error) => {
         console.error('Error al cargar ubicaciones:', error);

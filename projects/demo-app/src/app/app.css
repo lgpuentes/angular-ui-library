@@ -1,15 +1,8 @@
 .modal-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  background-color: rgba(0, 0, 0, 0.5);
+  @apply fixed inset-0 z-[1000] flex items-center justify-center p-5
+         bg-slate-950/80 backdrop-blur-md;
 }
 
 .modal-overlay ui-card {
-  width: 100%;
-  max-width: 500px;
+  @apply w-full max-w-[500px];
 }
