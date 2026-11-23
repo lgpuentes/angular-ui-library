@@ -19,31 +19,16 @@ import {NgClass} from '@angular/common';
     (click)="clicked.emit()"
      >
      @if (loading()) {
-    <span class="spinner" aria-hidden="true"></span> 
+    <span
+        class="mr-1.5 inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-t-transparent align-middle"
+        aria-hidden="true"
+    ></span>
     <span>Cargando...</span>
     } @else {
         {{ label() }}
     }
      </button>`,
 
-  styles: `
-    .spinner {
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    border: 2px solid currentColor;
-    border-top-color: transparent;
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;   
-    vertical-align: middle;
-    margin-right: 6px;
-    }
-    @keyframes spin {
-        to {
-        transform: rotate(360deg); 
-        }
-    }           
-    `
 })
 export class UiButton {
     label = input('Aceptar');
