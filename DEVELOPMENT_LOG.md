@@ -18,12 +18,6 @@
 
 ## 2. Retos encontrados y soluciones
 
-### Configuración del entorno
-
-Durante la configuración se presentaron dificultades al ejecutar comandos de Angular y npm desde PowerShell debido a las restricciones de ejecución de scripts de Windows.
-
-**Solución:** se utilizaron los ejecutables `ng.cmd` y `npm.cmd` para ejecutar los comandos necesarios sin modificar las políticas de seguridad del sistema.
-
 ### Configuración de Tailwind CSS v3
 
 Fue necesario ajustar la configuración de Tailwind para trabajar con la estructura del workspace Angular y asegurar que los archivos HTML y TypeScript de los proyectos fueran incluidos en el escaneo de clases.
